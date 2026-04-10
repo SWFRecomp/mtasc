@@ -51,7 +51,7 @@ let m_list suffix =
 
 let obj_ext , lib_ext , cp_cmd , path_type = match Sys.os_type with
 	| "Unix" | "Cygwin" | "MacOS" -> ".o" , ".a" , "cp", PathUnix
-	| "Win32" -> ".obj" , ".lib" , "copy", PathDos
+	| "Win32" -> ".o" , ".a" , "copy", PathDos
 	| _ -> failwith "Unknown OS"
 
 let run cmd =
