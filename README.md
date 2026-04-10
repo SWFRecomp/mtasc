@@ -1,3 +1,3 @@
 # MTASC
 
-The SWFRecomp fork of MTASC on SourceForge.
+The SWFRecomp fork of MTASC from SourceForge.
