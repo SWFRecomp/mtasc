@@ -11,6 +11,7 @@ https://ocaml.org/docs/installing-ocaml
 After initializing `opam` with `opam init -y`, simply `cd` to this repo and run:
 
 ```
+opam update
 opam switch create 3.11.1
 eval $(opam env --switch=3.11.1)
 make
