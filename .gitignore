@@ -1,0 +1,12 @@
+**.a
+**.cma
+**.cmi
+**.cmo
+**.cmx
+**.cmxa
+**.o
+**lexer.ml
+
+bin/
+*.swf
+*.as
