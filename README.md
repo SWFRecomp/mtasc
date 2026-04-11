@@ -31,7 +31,7 @@ make
 
 **Just use WSL.**
 
-But, if you're crazy enough to want to build MTASC as an exe for whatever reason (or you're me from the future when I lose my entire hard-drive LMFAO L DUMBASS) then be my guest, fellow masochist.
+But, if you're crazy enough to want to build MTASC as an exe for whatever reason (or you're me from the future when I lose my entire drive LMFAO L DUMBASS) then be my guest, fellow masochist.
 
 Install Cygwin: https://cygwin.com/install.html
 
