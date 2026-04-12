@@ -117,8 +117,10 @@ try
 	let base_path = normalize_path (try Extc.executable_path() with _ -> ".") in
 	let files = ref [] in
 	let time = Sys.time() in
+	let recomp_runtime = ref false in
 	Plugin.class_path := [base_path;"";"/"];
 	let args_spec = [
+		("-recompruntime",Arg.Unit (fun () -> recomp_runtime := true),": build a recomp runtime prelude SWF");
 		("-pack",Arg.String (fun path -> files := read_package path @ !files),"<path> : compile all files in target package");
 		("-cp",Arg.String (fun path -> Plugin.class_path := parse_class_path base_path path @ !Plugin.class_path),"<paths> : add classpath");
 		("-v",Arg.Unit (fun () -> Typer.verbose := true; Plugin.verbose := true),": turn on verbose mode");
@@ -147,7 +149,7 @@ try
 	end else begin
 		if !Plugin.verbose then print_endline ("Classpath : " ^ (String.concat ";" !Plugin.class_path));
 		let typer = (try
-				Typer.create !Plugin.class_path
+				Typer.create !Plugin.class_path !recomp_runtime
 			with
 				Typer.Error (Typer.Class_not_found ([],"StdPresent"),_) -> failwith "Directory 'std' containing MTASC class headers cannot be found :\nPlease install it or set classpath using '-cp' so it can be found.")
 		in

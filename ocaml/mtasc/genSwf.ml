@@ -1546,7 +1546,7 @@ let eliminate_overlength_jumps =
 
 let support_overlength_classes = ref true
 
-let generate file out ~compress exprs =
+let generate file out ~compress recomp_runtime exprs =
 	let file , linkage =
 		(try
 			let f,l = String.split file "@" in
@@ -1580,7 +1580,7 @@ let generate file out ~compress exprs =
 	Class.generate (fun clctx ->
 		ctx.current <- clctx;
 		let ctx = (if !separate then new_context ctx else ctx) in
-		if not (Class.intrinsic clctx) && not (is_excluded (Class.path clctx)) then begin
+		if (not recomp_runtime || (snd (Class.path clctx)) <> "RecompInclude") && not (Class.intrinsic clctx) && not (is_excluded (Class.path clctx)) then begin
 			if !separate then DynArray.add ctx.ops (AStringPool []);
 			let ssize = ActionScript.actions_length ctx.ops in
 			generate_class_code ctx clctx (if !separate then Hashtbl.create 0 else hpackages);
@@ -1832,5 +1832,5 @@ Plugin.add [
 	if !Plugin.verbose && Hashtbl.length excludes > 0 then Printf.printf "Excludes : %s\n" (String.concat ";" (List.of_enum (Hashtbl.keys excludes)));
 	match !swf with 
 	| None -> () 
-	| Some f -> generate f (match !out with None -> f | Some f -> f) ~compress:true (Typer.exprs t)
+	| Some f -> generate f (match !out with None -> f | Some f -> f) ~compress:true (Typer.recomp_runtime t) (Typer.exprs t)
 );

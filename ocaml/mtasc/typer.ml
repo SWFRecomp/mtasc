@@ -88,6 +88,7 @@ type context = {
 	mutable current : class_context;
 	mutable curwith : type_decl option;
 	finalizers : (unit -> unit) list ref;
+	recomp_runtime : bool;
 }
 
 
@@ -143,6 +144,9 @@ let rec is_super sup c =
 		false
 	else
 		is_super sup c.super
+
+let recomp_runtime ctx =
+	ctx.recomp_runtime
 
 let is_number ctx = function
 	| Class c when c == (match ctx.inumber with Class c2 -> c2 | _ -> assert false) -> true
@@ -1097,7 +1101,7 @@ let check_interfaces ctx =
 		loop_interf clctx.implements;
 	) ctx.classes
 
-let create cpath = 
+let create cpath rr =
 	let ctx = {
 		current = Obj.magic();
 		inumber = Obj.magic();
@@ -1114,6 +1118,7 @@ let create cpath =
 		curwith = None;
 		locals = Hashtbl.create 0;
 		frame = 0;
+		recomp_runtime = rr;
 	} in
 	ignore(load_class ctx ([],"StdPresent") null_pos);
 	ctx.inumber <- Class (load_class ctx ([],"Number") null_pos);
